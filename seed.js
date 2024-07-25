@@ -1,158 +1,130 @@
 const mongoose = require("mongoose");
-const Song = require("./models/Song");
 const Artist = require("./models/Artist");
 const Album = require("./models/Album");
+const Song = require("./models/Song");
 require("dotenv").config();
 
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log(err));
+const artistsData = [
+  { name: "CharliXCX", biography: "Queen of club classics", albums: [] },
+  { name: "Lorde", biography: "Queen of depression", albums: [] },
+  { name: "Steely Dan", biography: "No issues within", albums: [] },
+  { name: "Bakar", biography: "Cool guy innit", albums: [] },
+  { name: "BTS", biography: `stands for "can't be beat"`, albums: [] },
+];
 
-const seedData = async () => {
-  const artists = [
-    { name: "Artist One", biography: "Biography of Artist One" },
-    { name: "Artist Two", biography: "Biography of Artist Two" },
-    { name: "Artist Three", biography: "Biography of Artist Three" },
-    { name: "Artist Four", biography: "Biography of Artist Four" },
-    { name: "Artist Five", biography: "Biography of Artist Five" },
-  ];
-
-  const albums = [
+const albumsData = [
+  [
     {
-      title: "Album One",
-      artistName: "Artist One",
-      releaseDate: "2021-01-01",
+      title: "brat",
+      artist: null,
+      songs: [],
       genre: "Pop",
+      releaseDate: new Date("2024"),
     },
     {
-      title: "Album Two",
-      artistName: "Artist Two",
-      releaseDate: "2020-05-12",
-      genre: "Rock",
-    },
-    {
-      title: "Album Three",
-      artistName: "Artist Three",
-      releaseDate: "2019-07-23",
-      genre: "Jazz",
-    },
-    {
-      title: "Album Four",
-      artistName: "Artist Four",
-      releaseDate: "2018-11-30",
-      genre: "Classical",
-    },
-    {
-      title: "Album Five",
-      artistName: "Artist Five",
-      releaseDate: "2017-03-15",
-      genre: "Hip-Hop",
-    },
-  ];
-
-  const songs = [
-    {
-      title: "Song One",
-      artistName: "Artist One",
-      albumTitle: "Album One",
+      title: "Charli",
+      artist: null,
+      songs: [],
       genre: "Pop",
-      releaseDate: "2021-01-01",
-      duration: 200,
+      releaseDate: new Date("2017"),
+    },
+  ],
+  [
+    {
+      title: "Melodrama",
+      artist: null,
+      songs: [],
+      genre: "depresssion pop",
+      releaseDate: new Date("2017"),
     },
     {
-      title: "Song Two",
-      artistName: "Artist Two",
-      albumTitle: "Album Two",
-      genre: "Rock",
-      releaseDate: "2020-05-12",
-      duration: 180,
+      title: "Pure Heroine",
+      artist: null,
+      songs: [],
+      genre: "young Pop",
+      releaseDate: new Date("2016"),
+    },
+  ],
+  [
+    {
+      title: "Can't buy a thrill",
+      artist: null,
+      songs: [],
+      genre: "Jazz rock",
+      releaseDate: new Date("1973"),
     },
     {
-      title: "Song Three",
-      artistName: "Artist Three",
-      albumTitle: "Album Three",
-      genre: "Jazz",
-      releaseDate: "2019-07-23",
-      duration: 240,
+      title: "Aja",
+      artist: null,
+      songs: [],
+      genre: "Jazz rock",
+      releaseDate: new Date("1978"),
     },
+  ],
+  [
     {
-      title: "Song Four",
-      artistName: "Artist Four",
-      albumTitle: "Album Four",
-      genre: "Classical",
-      releaseDate: "2018-11-30",
-      duration: 300,
+      title: "Yellow",
+      artist: null,
+      songs: [],
+      genre: "Alternative",
+      releaseDate: new Date("2020"),
     },
+  ],
+  [
     {
-      title: "Song Five",
-      artistName: "Artist Five",
-      albumTitle: "Album Five",
-      genre: "Hip-Hop",
-      releaseDate: "2017-03-15",
-      duration: 210,
+      title: "Wings",
+      artist: null,
+      songs: [],
+      genre: "KPOP",
+      releaseDate: new Date("2016"),
     },
-  ];
+  ],
+];
 
+const songsData = [
+  {
+    title: "Reelin' in the years",
+    artist: null,
+    album: null,
+    genre: "Jazz Rock",
+    duration: 100,
+    releaseDate: 1973,
+  },
+  {
+    title: "Apple",
+    artist: null,
+    album: null,
+    genre: "hotgirl pop",
+    duration: 169,
+    releaseDate: 2024,
+  },
+];
+
+async function seed() {
   try {
-    await mongoose.connection.dropDatabase();
+    await mongoose.connect(process.env.MONGO_URI);
 
-    // Insert artists and create a map of artist names to IDs
-    const insertedArtists = await Artist.insertMany(artists);
-    const artistMap = {};
-    insertedArtists.forEach((artist) => {
-      artistMap[artist.name] = artist._id;
-    });
+    await Artist.deleteMany();
+    await Album.deleteMany();
+    await Song.deleteMany();
 
-    // Insert albums and create a map of album titles to IDs
-    albums.forEach((album) => {
-      album.artist = artistMap[album.artistName];
-      delete album.artistName;
-    });
-    const insertedAlbums = await Album.insertMany(albums);
-    const albumMap = {};
-    insertedAlbums.forEach((album) => {
-      albumMap[album.title] = album._id;
-    });
+    const createdArtists = await Artist.insertMany(artistsData);
+    albumsData[0].artist = createdArtists[0]._id;
+    albumsData[1].artist = createdArtists[1]._id;
 
-    // Insert songs and create a map of songs to their corresponding albums and artists
-    songs.forEach((song) => {
-      song.artist = artistMap[song.artistName];
-      song.album = albumMap[song.albumTitle];
-      delete song.artistName;
-      delete song.albumTitle;
-    });
-    const insertedSongs = await Song.insertMany(songs);
+    const createdAlbums = await Album.insertMany(albumsData);
+    songsData[0].artist = createdArtists[0]._id;
+    songsData[0].album = createdAlbums[0]._id;
+    songsData[1].artist = createdArtists[1]._id;
+    songsData[1].album = createdAlbums[1]._id;
 
-    // Populate album's songs array
-    for (const album of insertedAlbums) {
-      const albumSongs = insertedSongs.filter((song) =>
-        song.album.equals(album._id)
-      );
-      await Album.findByIdAndUpdate(album._id, {
-        songs: albumSongs.map((song) => song._id),
-      });
-    }
-
-    // Populate artist's albums array
-    for (const artist of insertedArtists) {
-      const artistAlbums = insertedAlbums.filter((album) =>
-        album.artist.equals(artist._id)
-      );
-      await Artist.findByIdAndUpdate(artist._id, {
-        albums: artistAlbums.map((album) => album._id),
-      });
-    }
+    await Song.insertMany(songsData);
 
     console.log("Database seeded!");
-    mongoose.disconnect();
+    mongoose.connection.close();
   } catch (err) {
-    console.log(err);
-    mongoose.disconnect();
+    console.error(err);
   }
-};
+}
 
-seedData();
+seed();

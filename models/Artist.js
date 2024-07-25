@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ArtistSchema = new Schema({
   name: { type: String, required: true },
   biography: { type: String, required: true },
-  albums: [{ type: Schema.Types.ObjectId, ref: "Album" }],
+  albums: [{ type: Array }],
 });
 
 ArtistSchema.index({ name: 1 });

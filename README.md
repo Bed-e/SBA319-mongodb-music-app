@@ -106,10 +106,12 @@ GET /songs/:id: Get a song by ID
 POST /songs: Create a new song
 PATCH /songs/:id: Update a song by ID
 DELETE /songs/:id: Delete a song by ID
+
 Testing the Application
 
 To ensure that artists have the correct albums and songs attached in their elements, you'll need to follow a process that involves:
 
-Creating Songs: First, create the songs and get their IDs.
-Creating Albums with Song IDs: Next, create albums and include the IDs of the songs in the albums.
-Creating Artists with Album IDs: Finally, create artists and include the IDs of the albums in the artists.
+Create artist with empty albums list
+create album with empty song list and artist id
+create songs with album id and artist id
+use song id to add songs to album songlist

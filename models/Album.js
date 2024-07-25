@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 const AlbumSchema = new Schema({
   title: { type: String, required: true },
-  artist: { type: Schema.Types.ObjectId, ref: "Artist", required: true },
+  artist: { type: String, required: true },
   releaseDate: { type: Date, required: true },
   genre: { type: String, required: true },
-  songs: [{ type: Schema.Types.ObjectId, ref: "Song" }],
+  songs: { type: Array },
 });
 
 AlbumSchema.index({ title: 1 });
