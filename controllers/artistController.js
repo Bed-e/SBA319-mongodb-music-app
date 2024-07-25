@@ -18,5 +18,3 @@ exports.createArtist = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
-
-// Add other CRUD operations as needed
