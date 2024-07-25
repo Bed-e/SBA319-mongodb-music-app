@@ -35,15 +35,15 @@ This project is a Node.js, Express, and MongoDB application that manages a music
 
 4. **Create POST routes for data**:
 
-   - POST routes are defined in `routes/songs.js`, `routes/artists.js`, and `routes/albums.js`.
+   - POST route is defined in `routes/albums.js`.
 
 5. **Create PATCH or PUT routes for data**:
 
-   - PATCH routes are defined in `routes/songs.js`, `routes/artists.js`, and `routes/albums.js`.
+   - PATCH route is defined in `routes/albums.js`.
 
 6. **Create DELETE routes for data**:
 
-   - DELETE routes are defined in `routes/songs.js`, `routes/artists.js`, and `routes/albums.js`.
+   - DELETE route is defined in `routes/albums.js`.
 
 7. **Include sensible indexes**:
 
@@ -68,15 +68,20 @@ This project is a Node.js, Express, and MongoDB application that manages a music
 1. Clone the repository:
 
 2. Install dependncies
+
+   ```
    npm i
+   ```
 
 3. Create a .env file in the root directory and add your MongoDB URI and port:
-   MONGO_URI=mongodb+srv://<user>:<pw>@mongopractice.p59fltt.mongodb.net/?retryWrites=true&w=majority&appName=MongoPractice
+   ```
+   MONGO_URI=mongodb+srv://\<user>:\<pw>@mongopractice.p59fltt.mongodb.net/?retryWrites=true&w=majority&appName=MongoPractice
    PORT=5002
+   ```
+   make sure to replace \<user> with your mongodb username and \<pw> with your mongodb password
+4. Seed the database with sample data:
 
-4) Seed the database with sample data:
-
-node seed.js
+   node seed.js
 
 ### Running the Application
 
@@ -84,34 +89,12 @@ node seed.js
    npm/nodemon start
    The server will run on http://localhost:5002/
 
-API Endpoints
-Artists
+### API Endpoints
 
-GET /artists: Get all artists
-GET /artists/:id: Get an artist by ID
-POST /artists: Create a new artist
-PATCH /artists/:id: Update an artist by ID
-DELETE /artists/:id: Delete an artist by ID
-Albums
-
-GET /albums: Get all albums
-GET /albums/:id: Get an album by ID
-POST /albums: Create a new album
-PATCH /albums/:id: Update an album by ID
-DELETE /albums/:id: Delete an album by ID
-Songs
-
-GET /songs: Get all songs
-GET /songs/:id: Get a song by ID
-POST /songs: Create a new song
-PATCH /songs/:id: Update a song by ID
-DELETE /songs/:id: Delete a song by ID
-
-Testing the Application
-
-To ensure that artists have the correct albums and songs attached in their elements, you'll need to follow a process that involves:
-
-Create artist with empty albums list
-create album with empty song list and artist id
-create songs with album id and artist id
-use song id to add songs to album songlist
+1. GET /albums: Get all albums
+2. GET /artists: Get all artists
+3. GET /songs: Get all songs
+4. GET /albums/:id: Get an album by ID
+5. POST /albums: Create a new album
+6. PATCH /albums/:id: Update an album by ID
+7. DELETE /albums/:id: Delete an album by ID
