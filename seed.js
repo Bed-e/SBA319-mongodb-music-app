@@ -5,99 +5,179 @@ const Song = require("./models/Song");
 require("dotenv").config();
 
 const artistsData = [
-  { name: "CharliXCX", biography: "Queen of club classics", albums: [] },
-  { name: "Lorde", biography: "Queen of depression", albums: [] },
-  { name: "Steely Dan", biography: "No issues within", albums: [] },
-  { name: "Bakar", biography: "Cool guy innit", albums: [] },
-  { name: "BTS", biography: `stands for "can't be beat"`, albums: [] },
+  { name: "CharliXCX", biography: "Queen of club classics" },
+  { name: "Lorde", biography: "Queen of depression" },
+  { name: "Steely Dan", biography: "No issues within" },
+  { name: "Bakar", biography: "Cool guy innit" },
+  { name: "BTS", biography: `stands for "can't be beat"` },
 ];
 
 const albumsData = [
   [
     {
       title: "brat",
-      artist: null,
-      songs: [],
       genre: "Pop",
-      releaseDate: new Date("2024"),
+      releaseDate: new Date("2024-01-01"),
     },
     {
       title: "Charli",
-      artist: null,
-      songs: [],
       genre: "Pop",
-      releaseDate: new Date("2017"),
+      releaseDate: new Date("2017-01-01"),
     },
   ],
   [
     {
       title: "Melodrama",
-      artist: null,
-      songs: [],
-      genre: "depresssion pop",
-      releaseDate: new Date("2017"),
+      genre: "Depression Pop",
+      releaseDate: new Date("2017-01-01"),
     },
     {
       title: "Pure Heroine",
-      artist: null,
-      songs: [],
-      genre: "young Pop",
-      releaseDate: new Date("2016"),
+      genre: "Young Pop",
+      releaseDate: new Date("2016-01-01"),
     },
   ],
   [
     {
       title: "Can't buy a thrill",
-      artist: null,
-      songs: [],
-      genre: "Jazz rock",
-      releaseDate: new Date("1973"),
+      genre: "Jazz Rock",
+      releaseDate: new Date("1973-01-01"),
     },
     {
       title: "Aja",
-      artist: null,
-      songs: [],
-      genre: "Jazz rock",
-      releaseDate: new Date("1978"),
+      genre: "Jazz Rock",
+      releaseDate: new Date("1978-01-01"),
     },
   ],
   [
     {
       title: "Yellow",
-      artist: null,
-      songs: [],
       genre: "Alternative",
-      releaseDate: new Date("2020"),
+      releaseDate: new Date("2020-01-01"),
     },
   ],
   [
     {
       title: "Wings",
-      artist: null,
-      songs: [],
       genre: "KPOP",
-      releaseDate: new Date("2016"),
+      releaseDate: new Date("2016-01-01"),
     },
   ],
 ];
 
 const songsData = [
-  {
-    title: "Reelin' in the years",
-    artist: null,
-    album: null,
-    genre: "Jazz Rock",
-    duration: 100,
-    releaseDate: 1973,
-  },
-  {
-    title: "Apple",
-    artist: null,
-    album: null,
-    genre: "hotgirl pop",
-    duration: 169,
-    releaseDate: 2024,
-  },
+  [
+    {
+      title: "Apple",
+      genre: "Hotgirl Pop",
+      duration: 169,
+      releaseDate: new Date("2024-01-01"),
+    },
+    {
+      title: "Club Classics",
+      genre: "Hotgirl Pop",
+      duration: 269,
+      releaseDate: new Date("2024-01-01"),
+    },
+  ],
+  [
+    {
+      title: "Next Level Charli",
+      genre: "Pop",
+      duration: 110,
+      releaseDate: new Date("2018-01-01"),
+    },
+    {
+      title: "White Mercedes",
+      genre: "Pop",
+      duration: 1110,
+      releaseDate: new Date("2018-01-01"),
+    },
+  ],
+  [
+    {
+      title: "Green Light",
+      genre: "Indie Pop",
+      duration: 110,
+      releaseDate: new Date("2016-01-01"),
+    },
+    {
+      title: "The Louvre",
+      genre: "Indie Pop",
+      duration: 1110,
+      releaseDate: new Date("2016-01-01"),
+    },
+  ],
+  [
+    {
+      title: "Tennis Courts",
+      genre: "Indie Pop",
+      duration: 310,
+      releaseDate: new Date("2014-01-01"),
+    },
+    {
+      title: "Royals",
+      genre: "Indie Pop",
+      duration: 1110,
+      releaseDate: new Date("2014-01-01"),
+    },
+  ],
+  [
+    {
+      title: "Reelin' in the years",
+      genre: "Jazz Rock",
+      duration: 130,
+      releaseDate: new Date("1973-01-01"),
+    },
+    {
+      title: "Do it again",
+      genre: "Jazz Rock",
+      duration: 1110,
+      releaseDate: new Date("1973-01-01"),
+    },
+  ],
+  [
+    {
+      title: "Black Cow",
+      genre: "Jazz Rock",
+      duration: 310,
+      releaseDate: new Date("1973-01-01"),
+    },
+    {
+      title: "Aja",
+      genre: "Jazz Rock",
+      duration: 1120,
+      releaseDate: new Date("1973-01-01"),
+    },
+  ],
+  [
+    {
+      title: "All Night",
+      genre: "Alt R&B",
+      duration: 133,
+      releaseDate: new Date("2022-01-01"),
+    },
+    {
+      title: "Selling Biscuits",
+      genre: "Alt R&B",
+      duration: 210,
+      releaseDate: new Date("2022-01-01"),
+    },
+  ],
+  [
+    {
+      title: "Begin",
+      genre: "KPOP",
+      duration: 230,
+      releaseDate: new Date("2016-01-01"),
+    },
+    {
+      title: "Stigma",
+      genre: "KPOP",
+      duration: 1320,
+      releaseDate: new Date("2016-01-01"),
+    },
+  ],
 ];
 
 async function seed() {
@@ -108,17 +188,48 @@ async function seed() {
     await Album.deleteMany();
     await Song.deleteMany();
 
+    // Create artists
     const createdArtists = await Artist.insertMany(artistsData);
-    albumsData[0].artist = createdArtists[0]._id;
-    albumsData[1].artist = createdArtists[1]._id;
 
-    const createdAlbums = await Album.insertMany(albumsData);
-    songsData[0].artist = createdArtists[0]._id;
-    songsData[0].album = createdAlbums[0]._id;
-    songsData[1].artist = createdArtists[1]._id;
-    songsData[1].album = createdAlbums[1]._id;
+    // Create albums and associate with artists
+    const createdAlbumsArray = [];
+    for (let i = 0; i < albumsData.length; i++) {
+      const albums = albumsData[i];
+      for (let j = 0; j < albums.length; j++) {
+        albums[j].artist = createdArtists[i]._id;
+      }
+      const createdAlbums = await Album.insertMany(albums);
+      createdAlbumsArray.push(...createdAlbums);
 
-    await Song.insertMany(songsData);
+      // Update artists with album IDs
+      const albumIds = createdAlbums.map((album) => album._id);
+      await Artist.findByIdAndUpdate(
+        createdArtists[i]._id,
+        { $push: { albums: { $each: albumIds } } },
+        { new: true }
+      );
+    }
+
+    // Create songs and associate with albums and artists
+    for (let i = 0; i < songsData.length; i++) {
+      const artistIndex = Math.floor(i / 2);
+      const albumIndex = i % 2;
+      const songs = songsData[i];
+      for (let j = 0; j < songs.length; j++) {
+        songs[j].artist = createdArtists[artistIndex]._id;
+        songs[j].album = createdAlbumsArray[artistIndex * 2 + albumIndex]._id;
+      }
+      const createdSongs = await Song.insertMany(songs);
+
+      // Update albums with song IDs
+      for (let j = 0; j < createdSongs.length; j++) {
+        await Album.findByIdAndUpdate(
+          createdSongs[j].album,
+          { $push: { songs: createdSongs[j]._id } },
+          { new: true }
+        );
+      }
+    }
 
     console.log("Database seeded!");
     mongoose.connection.close();
